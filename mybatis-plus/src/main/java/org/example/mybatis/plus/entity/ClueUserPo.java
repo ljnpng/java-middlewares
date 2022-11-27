@@ -1,4 +1,4 @@
-package org.example.mybatis.plus.domain;
+package org.example.mybatis.plus.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;

@@ -1,18 +1,18 @@
 package org.example.mybatis.plus;
 
-import org.example.mybatis.plus.domain.User;
+import org.example.mybatis.plus.entity.User;
 import org.example.mybatis.plus.mapper.UserMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @SpringBootTest
 public class SampleTest {
 
-    @Autowired
+    @Resource
     private UserMapper userMapper;
 
     @Test
@@ -22,7 +22,6 @@ public class SampleTest {
         Assertions.assertEquals(5, userList.size());
         userList.forEach(System.out::println);
     }
-
 
 
 }

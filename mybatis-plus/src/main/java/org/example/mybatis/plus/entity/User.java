@@ -1,8 +1,6 @@
-package org.example.mybatis.plus.domain;
+package org.example.mybatis.plus.entity;
 
-import lombok.Builder;
 import lombok.Data;
-import lombok.Setter;
 import lombok.experimental.Accessors;
 
 @Data

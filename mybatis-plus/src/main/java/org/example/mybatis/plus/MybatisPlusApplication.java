@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @MapperScan("org.example.mybatis.plus.mapper")
-public class Application {
+public class MybatisPlusApplication {
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(MybatisPlusApplication.class, args);
     }
 }
