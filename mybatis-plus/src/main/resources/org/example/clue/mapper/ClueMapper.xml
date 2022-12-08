@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.clue.mapper.ClueMapper">
+
+    <resultMap id="BaseResultMap" type="org.example.clue.domain.Clue">
+            <id property="id" column="id" jdbcType="OTHER"/>
+            <result property="clueTitle" column="clue_title" jdbcType="VARCHAR"/>
+            <result property="clueCode" column="clue_code" jdbcType="VARCHAR"/>
+            <result property="clueStatus" column="clue_status" jdbcType="INTEGER"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="createUser" column="create_user" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,clue_title,clue_code,
+        clue_status,create_time,create_user,
+        is_del
+    </sql>
+
+</mapper>
