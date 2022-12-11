@@ -6,6 +6,9 @@ import org.example.mongodb.model.Column;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 
 public class DBObjectUtils {
@@ -22,8 +25,21 @@ public class DBObjectUtils {
                     String key = annotation.value().equals("") ? field.getName() : annotation.value();
                     if (dbObject.containsField(key)) {
                         try {
-                            field.set(t, dbObject.get(key));
-                        } catch (IllegalAccessException e) {
+                            if (dbObject.get(key) != null) {
+                                // 继续添加map list 等类型
+                                if (field.getType().isPrimitive()
+                                        || field.getType().equals(Integer.class)
+                                        || field.getType().equals(String.class)
+                                        || field.getType().equals(Date.class)
+                                        || field.getType().equals(Map.class)
+                                        || field.getType().equals(List.class)) {
+                                    field.set(t, dbObject.get(key));
+                                } else {
+                                    field.set(t, toTojo((DBObject) dbObject.get(key), field.getType()));
+                                }
+
+                            }
+                        } catch (IllegalAccessException | InstantiationException e) {
                             throw new RuntimeException(e);
                         }
                     }
@@ -45,7 +61,16 @@ public class DBObjectUtils {
                     String key = annotation.value().equals("") ? field.getName() : annotation.value();
                     Object value;
                     try {
-                        value = field.get(pojo);
+                        if (field.getType().isPrimitive()
+                                || field.getType().equals(Integer.class)
+                                || field.getType().equals(String.class)
+                                || field.getType().equals(Date.class)
+                                || field.getType().equals(Map.class)
+                                || field.getType().equals(List.class)) {
+                            value = field.get(pojo);
+                        } else {
+                            value = toDBObject(field.get(pojo));
+                        }
                     } catch (IllegalAccessException e) {
                         throw new RuntimeException(e);
                     }
@@ -54,4 +79,5 @@ public class DBObjectUtils {
                 });
         return basicDBObject;
     }
+
 }

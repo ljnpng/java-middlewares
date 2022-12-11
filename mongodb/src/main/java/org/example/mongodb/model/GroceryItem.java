@@ -1,8 +1,6 @@
 package org.example.mongodb.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -10,14 +8,20 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class GroceryItem {
 
     @Id
+    @Column
     private String id;
 
+    @Column
     private String name;
 
+    @Column
     private int quantity;
 
+    @Column
     private String category;
 }

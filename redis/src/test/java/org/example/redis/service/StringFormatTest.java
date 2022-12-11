@@ -1,6 +1,7 @@
 package org.example.redis.service;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.util.StringUtils;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -19,6 +20,16 @@ class StringFormatTest {
     @Test
     void testStringFormatWithFormat() {
         assertEquals("00001", String.format("%05d", 1L));
-        System.out.println(String.format("%05d", 11L));
+        System.out.println(String.format("%05d", 1188888L));
+    }
+
+    @Test
+    void testTrebleOperator() {
+        String source = "010010001";
+        String result = source.endsWith("0000000")
+                ? source.substring(0, 2)
+                : source.endsWith("0000") ? source.substring(0, 5)
+                : source;
+
     }
 }

@@ -1,7 +1,14 @@
 package org.example.mongodb.mapper;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import org.example.mongodb.model.Feedback;
+import org.example.mongodb.model.GroceryItem;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -29,9 +36,11 @@ class DBObjectUtilsTest {
                 .reporter("廖")
                 .appended(false)
                 .content(content)
-                .orgs(list)
+                .org(list)
                 .createDate(new Date())
+                .groceryItem(new GroceryItem("1", "juse", 3, "hah"))
                 .build();
+
 
         DBObject dbObject = DBObjectUtils.toDBObject(feedback);
         Feedback feedback1 = DBObjectUtils.toTojo(dbObject, Feedback.class);
@@ -41,4 +50,55 @@ class DBObjectUtilsTest {
         System.out.println(dbObject);
     }
 
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void json() {
+        Feedback someone = Feedback.builder().id(1)
+                .createDate(Calendar.getInstance().getTime())
+                .content(null)
+                .clueId("CLUE-1")
+                .appended(false)
+                .reporter("someone")
+                .build();
+
+        Map<String, Object> o = (Map<String, Object>) JSON.toJSON(someone);
+        System.out.println(o);
+
+        BasicDBObject basicDBObject = new BasicDBObject(o);
+
+        System.out.println(basicDBObject);
+
+        Feedback t = JSON.toJavaObject(new JSONObject(basicDBObject), Feedback.class);
+
+        System.out.println(t);
+
+    }
+
+    @Test
+    void json2() {
+         Feedback someone = Feedback.builder().id(1)
+                .createDate(Calendar.getInstance().getTime())
+                .content(null)
+                .clueId("CLUE-1")
+                .appended(false)
+                .reporter("someone")
+                .build();
+
+        ObjectMapper mapper = new ObjectMapper();
+        // 忽略 null
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+
+        // convert pojo to map
+        Map<String, Object> map = mapper.convertValue(someone, new TypeReference<Map<String, Object>>() {
+        });
+
+        BasicDBObject basicDBObject = new BasicDBObject(map);
+
+        // map to pojo
+        Feedback newSomeOne = mapper.convertValue(basicDBObject, someone.getClass());
+
+        Assertions.assertEquals(someone, newSomeOne);
+
+    }
 }
